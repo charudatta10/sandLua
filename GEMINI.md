@@ -27,8 +27,8 @@ Based on the current `src`, `plugins`, and `docs` folders, the following feature
 From the `todo.md` and project plan, here are the next steps:
 
 - [ ] Add test cases for each method.
-- [ ] Add dynamic analysis tools such as debuggers.
-- [ ] Create a minimal sandbox environment to test malware.
+- [x] Add dynamic analysis tools such as debuggers.
+- [x] Create a minimal sandbox environment to test malware.
 - [ ] Implement APK (Android) support (listed as completed, but not present in code).
 - [ ] Expand analysis engine (function/string/code/data detection, CFG, etc.).
 - [ ] Scripting interface for user automation.

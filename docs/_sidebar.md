@@ -11,3 +11,4 @@
   - [hex](commands/hex.md)
   - [load](commands/load.md)
   - [help](commands/help.md)
+  - [debug](commands/debug.md)
