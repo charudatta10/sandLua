@@ -40,8 +40,17 @@ function shell.start()
             local cmd_args = {select(2, unpack(args))}
 
             if commands[cmd_name] then
-                local success, err = pcall(commands[cmd_name].run, cmd_args)
-                if not success then
+                local cmd = commands[cmd_name]
+                local ok, err
+                if type(cmd.run) == "function" then
+                    ok, err = pcall(cmd.run, cmd_args)
+                elseif type(cmd.execute) == "function" then
+                    ok, err = pcall(cmd.execute, cmd_args)
+                else
+                    print("Error: Command '" .. cmd_name .. "' does not have a 'run' or 'execute' function.")
+                    ok = true
+                end
+                if not ok then
                     io.stderr:write("Error executing command '" .. cmd_name .. "': " .. tostring(err) .. "\n")
                 end
             elseif cmd_name == "quit" or cmd_name == "exit" then

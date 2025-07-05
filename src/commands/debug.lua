@@ -3,7 +3,7 @@ local ffi = require("ffi")
 
 local M = {}
 
-function M.execute(args)
+function M.run(args)
     if not args[1] then
         print("Usage: debug <path_to_executable>")
         return
