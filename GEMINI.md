@@ -1,66 +1,68 @@
-Now *that’s* a bold and fascinating challenge. Recreating something like **radare2** in Lua is ambitious—but totally possible in a modular, focused way. radare2 is a massive reverse engineering framework, so let’s break it down and sketch a Lua-powered version that’s lean, scriptable, and extensible.
+Now *that’s* a bold and fascinating challenge. Recreating something like **radare2** in Lua is ambitious—but totally possible in a modular, focused way. This project is already well underway, with several core components implemented and extensible design in mind.
 
 ---
 
-### 🧩 Core Components to Rebuild in Lua
+## ✅ Completed Tasks
 
-Here’s a roadmap for a Lua-based reverse engineering tool inspired by radare2:
+Based on the current `src`, `plugins`, and `docs` folders, the following features are implemented:
 
-1. **Binary Loader**
-   - Read ELF, PE, or raw binaries.
-   - Parse headers, sections, and symbols.
-   - Use LuaJIT FFI or pure Lua for portability.
-
-2. **Hex Editor / Viewer**
-   - Dump memory in hex + ASCII.
-   - Navigate with offsets and seek commands.
-
-3. **Disassembler**
-   - Start with x86 or ARM.
-   - Use a Lua binding to [Capstone](https://www.capstone-engine.org/) via LuaJIT FFI, or write a minimal decoder in Lua.
-
-4. **Analysis Engine**
-   - Identify functions, strings, and code/data sections.
-   - Build a basic control flow graph (CFG).
-   - Implement `aaa`, `afl`, `pdf`-like commands.
-
-5. **Command Shell**
-   - REPL-style interface (`:seek`, `:disasm`, `:strings`, etc.).
-   - Use `readline` or a TUI library like [lcurses](https://github.com/lcurses/lcurses).
-
-6. **Scripting Interface**
-   - Let users write Lua scripts to automate analysis.
-   - Expose internal APIs for memory, disassembly, and patching.
-
-7. **Visualization (Optional)**
-   - ASCII graphs for CFGs.
-   - Integrate with Graphviz or generate DOT files.
+- **Binary Loader**
+  - Supports ELF, PE (Windows), and Mach-O format detection and parsing (see `src/core/loader.lua` and format modules).
+- **Hex Viewer**
+  - Classic hex dump with offset, hex, and ASCII (see `src/core/hexview.lua`).
+- **Disassembler**
+  - Uses Capstone via LuaJIT FFI for x86_64 (see `src/core/disasm.lua`).
+- **Command Shell**
+  - Modular CLI commands: `disasm`, `hex`, `load`, `help` (see `src/commands/`).
+- **Documentation**
+  - Docs for all major modules and commands (`docs/` folder).
+- **PE (Windows) Support**
+- **Plugin/Modular Command Structure**
+  - Easy to add new commands and formats.
 
 ---
 
-### 🛠️ Example: Minimal Disassembler Shell
+## 📝 Remaining Tasks
 
-```lua
--- disasm.lua
-local capstone = require("capstone") -- via LuaJIT FFI
-local cs = capstone.new(capstone.ARCH_X86, capstone.MODE_32)
+From the `todo.md` and project plan, here are the next steps:
 
-local function disasm(buf, addr)
-  local insns = cs:disasm(buf, addr)
-  for _, insn in ipairs(insns) do
-    print(string.format("0x%X:\t%-7s\t%s", insn.address, insn.mnemonic, insn.op_str))
-  end
-end
-
-return disasm
-```
+- [ ] Add test cases for each method.
+- [ ] Add dynamic analysis tools such as debuggers.
+- [ ] Create a minimal sandbox environment to test malware.
+- [ ] Implement APK (Android) support (listed as completed, but not present in code).
+- [ ] Expand analysis engine (function/string/code/data detection, CFG, etc.).
+- [ ] Scripting interface for user automation.
+- [ ] Visualization tools (ASCII graphs, DOT export, etc.).
 
 ---
 
-### 🚀 Next Steps
+## 🧩 Core Components Overview
 
-- Want to start with a **hex viewer + disassembler shell**?
-- Or build a **Lua REPL that loads binaries and exposes memory APIs**?
-- I can scaffold a Git-style CLI (`lua-r2 <cmd> <args>`) with plugin support.
+1. **Binary Loader**  
+   Reads ELF, PE, and Mach-O binaries. Parses headers, sections, and symbols.
 
-Let’s build this like a hacker’s Swiss Army knife—modular, scriptable, and fun. What part do you want to tackle first?
+2. **Hex Viewer**  
+   Dumps memory in hex + ASCII, supports offset and range.
+
+3. **Disassembler**  
+   Capstone-powered, currently x86_64, extensible for other architectures.
+
+4. **Analysis Engine**  
+   Placeholder for function/string/code/data analysis and control flow graph.
+
+5. **Command Shell**  
+   CLI with modular commands (`disasm`, `hex`, `load`, etc.).
+
+6. **Documentation**  
+   All modules and commands are documented in the `docs/` folder.
+
+---
+
+## 🚀 Next Steps
+
+- Add automated tests for all modules.
+- Implement dynamic analysis and sandboxing.
+- Expand analysis and scripting capabilities.
+- Add visualization features.
+
+Let’s keep building this modular, scriptable, and extensible Lua sandbox and reverse engineering malware analysis  toolkit!
