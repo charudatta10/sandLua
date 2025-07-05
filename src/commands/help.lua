@@ -11,6 +11,8 @@ function cmd.run(args)
     print("Usage: lua-r2 <command> [args]")
     print("\nAvailable commands:")
     print("  disasm   - Disassemble code")
+    print("  hex      - View hex dump")
+    print("  load     - Load a binary file")
     print("  help     - Show this help message")
     -- Add more commands here as they are implemented.
 end

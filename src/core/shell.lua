@@ -40,7 +40,7 @@ function shell.start()
             local cmd_args = {select(2, unpack(args))}
 
             if commands[cmd_name] then
-                local success, err = pcall(commands[cmd_name].execute, cmd_args)
+                local success, err = pcall(commands[cmd_name].run, cmd_args)
                 if not success then
                     io.stderr:write("Error executing command '" .. cmd_name .. "': " .. tostring(err) .. "\n")
                 end

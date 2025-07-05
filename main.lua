@@ -23,8 +23,8 @@ else
     local ok, command_module = pcall(require, command_path)
 
     if ok then
-        if command_module and type(command_module.execute) == "function" then
-            command_module.execute(command_args)
+        if command_module and type(command_module.run) == "function" then
+            command_module.run(command_args)
         else
             print("Error: Invalid command module for '" .. command_name .. "'.")
             print("The module must return a table with an 'execute' function.")
