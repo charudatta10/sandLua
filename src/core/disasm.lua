@@ -5,10 +5,11 @@
 -- This module uses the Capstone Engine to disassemble code for various architectures.
 -- It's designed to be simple and easily extensible for new architectures and modes.
 
--- We are using LuaJIT's FFI to interface with the Capstone library.
--- This requires the Capstone library to be installed on the system.
 local ffi = require("ffi")
-local capstone = require("capstone")
+-- Path to cstool.exe (Capstone command-line tool)
+local cstool_path = "C:/Users/korde/scoop/apps/capstone/currentcstool.exe"
+
+local capstone = cs
 
 local disasm = {}
 
@@ -26,6 +27,19 @@ local cs = capstone.new(arch, mode)
 -- @param data: The raw byte string to be disassembled.
 -- @param address: The starting address of the data.
 function disasm.disassemble(data, address)
+    -- If data is a file path, read the file
+    if type(data) == "string" and #data < 4096 and not data:find("[^%w%._%-/\\]") and data:match("%.bin$") then
+        local f = io.open(data, "rb")
+        if not f then
+            print("Error: Could not open file: " .. data)
+            return
+        end
+        data = f:read("*a")
+        f:close()
+    end
+
+    address = address or 0
+
     -- Use pcall to catch any errors from the Capstone engine.
     local ok, insns = pcall(function()
         return cs:disasm(data, address)
@@ -49,4 +63,6 @@ function disasm.disassemble(data, address)
 end
 
 return disasm
+
+
 
